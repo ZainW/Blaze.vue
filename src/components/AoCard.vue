@@ -1,14 +1,12 @@
 <template>
   <div class="ao-card">
-    <div
-      v-if="title"
-      class="ao-card__header">
-      <h2 class="ao-card__title">{{ title }}</h2>
-      <div class="ao-card__header__toolbar">
+    <div class="card-header">
+      <h2 v-if="title" class="card-header__title">{{ title }}</h2>
+      <div class="card-header__toolbar" v-if="!!this.$slots['card-header-toolbar']">
         <slot name="card-header-toolbar"/>
       </div>
     </div>
-    <div class="ao-card__body">
+    <div class="card-body">
       <slot/>
     </div>
   </div>

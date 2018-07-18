@@ -1,21 +1,17 @@
 <template>
-  <div
+  <label
     :disabled="disabled"
-    class="ao-checkbox"
-  >
-    <label>
-      <input
-        :name="name"
-        :value="checkboxValue"
-        v-model="checked"
-        :required="required"
-        :disabled="disabled"
-        type="checkbox"
-        @change="choose"
-      >
-      <span v-show="showLabel">{{ checkboxLabel }}</span>
-    </label>
-  </div>
+    class="ao-checkbox">
+    <input
+      :name="name"
+      :value="checkboxValue"
+      v-model="checked"
+      :required="required"
+      :disabled="disabled"
+      type="checkbox"
+      @change="choose">
+    <span v-show="showLabel">{{ checkboxLabel }}</span>
+  </label>
 </template>
 
 <script>

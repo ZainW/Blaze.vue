@@ -2,9 +2,8 @@
   <button
     :type="type"
     :form="formName"
-    :class="[computedButtonClass, computedSize]"
-    :disabled="disabled"
-  >
+    :class="computedButtonClass"
+    :disabled="disabled">
     <slot/>
   </button>
 </template>
@@ -16,7 +15,6 @@ export default {
   props: {
     type: {
       type: String,
-      required: false,
       default: 'button',
       validator: function (buttonType) {
         return ['button', 'submit'].indexOf(buttonType) !== -1
@@ -30,7 +28,7 @@ export default {
 
     nano: {
       type: Boolean,
-      default: null
+      default: false
     },
 
     small: {
@@ -88,18 +86,12 @@ export default {
         'ao-button--caution': this.caution,
         'ao-button--subtle': this.subtle,
         'ao-button--naked': this.naked,
-        'ao-button--jumbo': this.jumbo
-      }
-      return filterClasses(activeClasses)
-    },
-
-    computedSize () {
-      const sizes = {
         'ao-button--nano': this.nano,
         'ao-button--small': this.small,
-        'ao-button--large': this.large
+        'ao-button--large': this.large,
+        'ao-button--jumbo': this.jumbo,
       }
-      return filterClasses(sizes)
+      return filterClasses(activeClasses)
     }
   }
 }
@@ -150,13 +142,13 @@ export default {
   }
 
   &--primary {
-    background-color: $color-ao-primary;
-    border-color: $color-ao-primary;
+    background-color: $color-primary;
+    border-color: $color-primary;
     color: $color-white;
 
     &:hover, &:active {
-      border-color: darken($color-ao-primary, 3%);
-      background-color: darken($color-ao-primary, 3%);
+      border-color: darken($color-primary, 3%);
+      background-color: darken($color-primary, 3%);
       color: $color-white;
     }
   }

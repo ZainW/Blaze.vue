@@ -127,7 +127,7 @@ export default {
     color: $color-white;
 
     &--default {
-      background-color: $color-ao-primary;
+      background-color: $color-primary;
     }
 
     &--destructive {

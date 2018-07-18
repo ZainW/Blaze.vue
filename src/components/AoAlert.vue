@@ -46,7 +46,6 @@ export default {
     computedAlertIconClass () {
       const activeClasses = {
         'ao-alert__icon': true,
-        'ao-alert__icon--default': true,
         'ao-alert__icon--destructive': this.destructive,
         'ao-alert__icon--caution': this.caution
       }
@@ -79,6 +78,8 @@ $ao-alert-height: 5rem;
   width: 75%;
   box-shadow: $shadow;
   min-height: $ao-alert-height;
+  background-color: $color-primary;
+  color: #fff;
 
   &__container {
     position: fixed;
@@ -102,11 +103,6 @@ $ao-alert-height: 5rem;
     justify-content: center;
     align-items: center;
     width: $ao-alert-height;
-
-    &--default {
-      background-color: $color-ao-primary;
-      color: #fff;
-    }
 
     &--destructive {
       background-color: $color-destructive;

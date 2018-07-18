@@ -80,7 +80,7 @@ export default {
     display: inline-block;
     line-height: 1.1;
     font-size: $font-size-xl;
-    color: $color-ao-primary;
+    color: $color-primary;
     margin: 0 $spacer-sm 0 0;
   }
 

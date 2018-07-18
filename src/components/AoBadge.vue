@@ -44,7 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   .ao-badge {
     display: inline;
     padding: .3em .6em .35em;
@@ -57,7 +56,7 @@ export default {
     vertical-align: baseline;
     border-radius: $border-radius-base;
     text-transform: uppercase;
-    background: $color-ao-primary;
+    background: $color-primary;
 
     &--success {
       background-color: $color-success;
@@ -71,7 +70,5 @@ export default {
       background: $color-gray-80;
       color: $color-gray-20;
     }
-
   }
-
 </style>
