@@ -3,13 +3,12 @@
     <span
       v-for="({ name, path, active}, index) in paths"
       :key="index">
-      <span v-if="!active">
-        <router-link
-          :to="path"
-          class="ao-breadcrumbs__crumb">
-          {{ name }}
-        </router-link>
-      </span>
+      <router-link
+        v-if="!active"
+        :to="path"
+        class="ao-breadcrumbs__crumb">
+        {{ name }}
+      </router-link>
       <span
         v-if="active"
         class="ao-breadcrumbs__crumb ao-breadcrumbs__crumb--active">
