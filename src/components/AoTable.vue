@@ -83,6 +83,11 @@ export default {
       validator: function (order) {
         return ['asc', 'desc'].includes(order)
       }
+    },
+
+    isScrollable: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -103,7 +108,8 @@ export default {
       const activeClasses = {
         'ao-table': true,
         'ao-table--clickable': this.isClickable,
-        'ao-table--condensed': this.condensed
+        'ao-table--condensed': this.condensed,
+        'ao-table--scrollable': this.isScrollable
       }
       return filterClasses(activeClasses)
     },
@@ -199,16 +205,6 @@ $table-row-background-shaded: $color-gray-90;
     background-color: $color-gray-90;
   }
 
-  &.ao-table--clickable {
-    tbody > tr {
-      cursor: pointer;
-    }
-
-    & > tbody > tr:hover {
-      background: $color-gray-80;
-    }
-  }
-
   &--vertical-align-top {
     & > tr > td {
       vertical-align: top;
@@ -223,10 +219,8 @@ $table-row-background-shaded: $color-gray-90;
 
   & tr > td {
     padding: .5rem;
-  }
-
-  & > tbody tr > td {
-    border-top: 1px solid $table-border-color;
+    vertical-align: middle;
+    border-bottom: 1px solid $table-border-color;
   }
 
   & > thead > tr > th {
@@ -234,8 +228,12 @@ $table-row-background-shaded: $color-gray-90;
     border-bottom: 2px solid $table-border-color;
   }
 
-  & tfoot tr > td {
-    border-top-width: 2px;
+  & > tfoot > tr > td {
+    border-top: 1px solid $table-border-color;
+  }
+
+  & > tfoot > tr ~ tr > td {
+    border-top: 0;
   }
 
   &__sort-icon {
@@ -267,6 +265,59 @@ $table-row-background-shaded: $color-gray-90;
       cursor: inherit !important;
       background-color: $table-row-background-shaded !important;
     }
+  }
+}
+
+$fake-scrollbar-color: $color-gray-90;
+
+.ao-table.ao-table--scrollable {
+  display: flex;
+  flex-direction: column;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: $browser-scrollbar-width;
+    background: $fake-scrollbar-color;
+    border-left: 1px solid $color-gray-80;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: $color-gray-40;
+    -webkit-box-shadow: inset 4px 0 0px $fake-scrollbar-color, inset -5px 0 0px $fake-scrollbar-color;
+    border-left: 1px solid $color-gray-80;
+  }
+
+  tbody {
+    overflow-y: scroll;
+  }
+
+  & > thead > tr,
+  & > tbody > tr,
+  & > tfoot > tr {
+        display: flex;
+  }
+
+  & > thead > tr > th,
+  & > tbody > tr > td,
+  & > tfoot > tr > td {
+    flex: 1 1 0;
+    overflow-x: hidden;
+  }
+
+  & thead th:last-child,
+  & tfoot td:last-child {
+    padding-right: $table-cell-padding + $browser-scrollbar-width;
+  }
+}
+
+.ao-table.ao-table--clickable {
+  tbody > tr {
+    cursor: pointer;
+  }
+
+  & > tbody > tr:hover {
+    background: $color-gray-80;
   }
 }
 </style>
