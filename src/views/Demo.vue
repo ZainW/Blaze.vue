@@ -58,6 +58,169 @@
           />
         </div>
       </ao-section-header>
+      <ao-card title="test table">
+        <ao-table
+          :headers="headers"
+          :show-no-data-text="showNoDataText"
+          class="shipment-cases-table"
+          :striped="false"
+          @sortTable="sortTable"
+        >
+          <tr>
+            <td>1</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <ao-table-cell align-right>
+              10
+            </ao-table-cell>
+            <ao-table-cell align-right>
+              0
+            </ao-table-cell>
+            <ao-table-cell
+              align-right
+              content="standardButton"
+            >
+              <ao-button>Pick Cases</ao-button>
+            </ao-table-cell>
+            <td class="subcell">
+              <table class="subtable">
+                <thead>
+                  <tr>
+                    <th>
+                      3 cases
+                    </th>
+                    <th>
+                      #
+                    </th>
+                    <th>
+                      Case ID
+                    </th>
+                    <th>
+                      Bulk Lot
+                    </th>
+                    <th>
+                      Created
+                    </th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td />
+                    <td>
+                      #
+                    </td>
+                    <td>
+                      Case ID
+                    </td>
+                    <td>
+                      Bulk Lot
+                    </td>
+                    <td>
+                      Created
+                    </td>
+                    <td>
+                      <span class="subtable__row-remove-button">
+                        x
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td />
+                    <td>
+                      #
+                    </td>
+                    <td>
+                      Case ID
+                    </td>
+                    <td>
+                      Bulk Lot
+                    </td>
+                    <td>
+                      Created
+                    </td>
+                    <td>
+                      <span class="subtable__row-remove-button">
+                        x
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <td>sup</td>
+            <ao-table-cell align-right>
+              10
+            </ao-table-cell>
+            <ao-table-cell align-right>
+              0
+            </ao-table-cell>
+            <ao-table-cell
+              align-right
+              content="standardButton"
+            >
+              <ao-button>Pick Cases</ao-button>
+            </ao-table-cell>
+            <td class="subcell">
+              <table class="subtable">
+                <thead>
+                  <tr>
+                    <th>
+                      3 cases
+                    </th>
+                    <th>
+                      #
+                    </th>
+                    <th>
+                      Case ID
+                    </th>
+                    <th>
+                      Bulk Lot
+                    </th>
+                    <th>
+                      Created
+                    </th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td />
+                    <td>
+                      #
+                    </td>
+                    <td>
+                      Case ID
+                    </td>
+                    <td>
+                      Bulk Lot
+                    </td>
+                    <td>
+                      Created
+                    </td>
+                    <td>
+                      <span class="subtable__row-remove-button">
+                        x
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </ao-table>
+      </ao-card>
+
       <ao-card :title="'Radio Button Group'">
         <ao-radio-group
           v-model="radioGroupVal"
@@ -735,6 +898,19 @@ export default {
       const end = (page + 1) * perPage
       const userList = this.users
       return userList.slice((page * perPage), end)
+    },
+    headers () {
+      return [
+        { field: 'number', title: 'Line Item Number', hidden: true },
+        { field: 'product', title: 'Product' },
+        { field: 'sku', title: 'SKU' },
+        { field: 'description', title: 'Description' },
+        { field: 'gtin', title: 'GTIN' },
+        { field: 'uom', title: 'UoM' },
+        { field: 'remaining_qty', title: 'Remaining Order Qty.', alignRight: true },
+        { field: 'shipment_qty', title: 'Shipment Qty.', alignRight: true },
+        { field: 'action', title: 'Action', hidden: true }
+      ]
     }
   },
   methods: {
@@ -809,11 +985,131 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .ao-heading--card-section-heading {
   font-size: $font-size-sm;
   text-transform: uppercase;
   color: $color-gray-30;
   font-weight: $font-weight-bold;
   margin-bottom: $spacer-lg;
+}
+
+@mixin shipment-cases-table-grid($nth,$span) {
+  &:nth-of-type(#{$nth}) {
+    grid-area: auto / span $span / auto / auto;
+  }
+}
+.shipment-cases-table {
+
+  & > /deep/ thead > tr,
+  & > tbody > tr {
+    border-top: 0;
+    display: grid;
+    grid-template-columns: 40px repeat(20, 1fr);
+    grid-template-rows: auto auto;
+    width: 100%;
+
+    & > td {
+      border-top: 0;
+    }
+  }
+
+  & > thead > tr {
+    border-bottom: 2px solid $table-border-color;
+  }
+
+  & > tbody > tr {
+    border-bottom: 1px solid $table-border-color;
+  }
+
+  & > /deep/ thead > tr > th,
+  & > tbody > tr > td {
+    min-height: 1.75rem;
+    @include shipment-cases-table-grid(1,1);
+    @include shipment-cases-table-grid(2,3);
+    @include shipment-cases-table-grid(3,3);
+    @include shipment-cases-table-grid(4,3);
+    @include shipment-cases-table-grid(5,3);
+    @include shipment-cases-table-grid(6,2);
+    @include shipment-cases-table-grid(7,2);
+    @include shipment-cases-table-grid(8,2);
+    @include shipment-cases-table-grid(9,2);
+  }
+
+  td.subcell {
+    grid-column-start: 2;
+    grid-column-end: 24;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 1rem;
+  }
+
+  .subtable {
+    width: 100%;
+    font-size: $font-size-xs;
+
+    & tr {
+      display: grid;
+      grid-template-columns: repeat(20, 1fr);
+      border-bottom: 0;
+
+      & > th,
+      & > td {
+        grid-column-start: span 1;
+        border: 0;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+
+        @include shipment-cases-table-grid(1,3);
+        @include shipment-cases-table-grid(2,1);
+        @include shipment-cases-table-grid(3,2);
+        @include shipment-cases-table-grid(4,3);
+        @include shipment-cases-table-grid(5,10);
+        @include shipment-cases-table-grid(6,1);
+
+        &:first-child {
+          margin-left: .5rem;
+        }
+        &:last-child {
+          margin-right: .5rem;
+        }
+      }
+
+      & > th {
+        background: $color-gray-80;
+        color: $color-gray-20;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+      }
+      & > td {
+        background: $color-gray-90
+      }
+      & > td:last-child {
+        text-align: right;
+      }
+
+      &:hover > td {
+        background: darken($color-gray-90,2.5);
+      }
+    }
+
+    & > thead > tr:first-child {
+      th:first-child {
+        border-top-left-radius: $border-radius-base;
+      }
+      th:last-child {
+        border-top-right-radius: $border-radius-base;
+      }
+    }
+    & > tbody > tr:last-child {
+      th:first-child {
+        border-bottom-left-radius: $border-radius-base;
+      }
+      th:last-child {
+        border-bottom-right-radius: $border-radius-base;
+      }
+    }
+  }
 }
 </style>

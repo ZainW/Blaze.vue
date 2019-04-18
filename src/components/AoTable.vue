@@ -49,6 +49,11 @@ export default {
       default: false
     },
 
+    striped: {
+      type: Boolean,
+      default: true
+    },
+
     condensed: {
       type: Boolean,
       default: false
@@ -103,6 +108,7 @@ export default {
       const activeClasses = {
         'ao-table': true,
         'ao-table--clickable': this.isClickable,
+        'ao-table--striped': this.striped,
         'ao-table--condensed': this.condensed
       }
       return filterClasses(activeClasses)
@@ -195,8 +201,10 @@ $table-row-background-shaded: $color-gray-90;
     }
   }
 
-  & > tbody > tr:nth-of-type(odd) {
-    background-color: $color-gray-90;
+  &.ao-table--striped {
+    & > tbody > tr:nth-of-type(odd) {
+      background-color: $color-gray-90;
+    }
   }
 
   &.ao-table--clickable {

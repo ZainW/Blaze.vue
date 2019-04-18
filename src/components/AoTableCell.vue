@@ -24,6 +24,7 @@ export default {
       const activeClasses = {
         'ao-table-cell': true,
         'ao-table-cell--align-right': this.alignRight,
+        'ao-table-cell__standard-button': this.content === 'standardButton',
         'ao-table-cell__button': this.content === 'button',
         'ao-table-cell__input': this.content === 'input'
       }
@@ -56,10 +57,14 @@ export default {
     }
   }
 
-  &__button {
+  &__button,
+  &__standard-button {
     text-align: right;
     padding-top: $table-input-vertical-cell-padding !important;
     padding-bottom: $table-input-vertical-cell-padding !important;
+  }
+
+  &__button {
 
     & .ao-button {
       color: $color-gray-30;
@@ -88,6 +93,14 @@ export default {
       & > i {
         font-size: $md-icon-font-size-base;
       }
+    }
+  }
+
+  &__standard-button {
+    & .ao-button {
+      min-height: auto;
+      height: $input-height-sm;
+      font-size: $font-size-xs;
     }
   }
 
