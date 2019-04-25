@@ -2,6 +2,14 @@
   <table :class="[computedClasses, computedVAlign]">
     <thead>
       <tr>
+        <th v-if="selectionTable">
+          <input
+            v-model="selectAll"
+            type="checkbox"
+            :indeterminate.prop="partialSelect"
+            @change="$emit('massSelect', selectAll)"
+          >
+        </th>
         <th
           v-for="columnHeader in headers"
           :key="columnHeader.field"
@@ -83,6 +91,16 @@ export default {
       validator: function (order) {
         return ['asc', 'desc'].includes(order)
       }
+    },
+
+    selectionTable: {
+      type: Boolean,
+      default: false
+    },
+
+    partialSelect: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -90,7 +108,8 @@ export default {
     return {
       lastSelectedHeader: this.sortBy,
       sortProxy: this.sortBy,
-      orderProxy: this.order
+      orderProxy: this.order,
+      selectAll: false
     }
   },
 
