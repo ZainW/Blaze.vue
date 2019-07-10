@@ -3,6 +3,17 @@
     <thead>
       <tr>
         <th
+          v-if="selectableTable"
+          class="ao-table__header--select-all"
+        >
+          <input
+            v-model="selectAll"
+            type="checkbox"
+            :indeterminate.prop="isPartiallySelected"
+            @change="$emit('selectAll', selectAll)"
+          >
+        </th>
+        <th
           v-for="columnHeader in headers"
           :key="columnHeader.field"
           :class="['ao-table__header', isSortableClass(columnHeader.sortable), {'ao-table__header--text-right' : columnHeader.alignRight}]"
@@ -17,7 +28,10 @@
         </th>
       </tr>
     </thead>
-    <tbody :class=" { clickable: isClickable }">
+    <tbody
+      :class=" { clickable: isClickable }"
+      :style="getMaxHeight(maxHeight)"
+    >
       <slot />
       <tr
         v-if="showNoDataText"
@@ -83,6 +97,26 @@ export default {
       validator: function (order) {
         return ['asc', 'desc'].includes(order)
       }
+    },
+
+    selectableTable: {
+      type: Boolean,
+      default: false
+    },
+
+    isPartiallySelected: {
+      type: Boolean,
+      default: false
+    },
+
+    isScrollable: {
+      type: Boolean,
+      default: false
+    },
+
+    maxHeight: {
+      type: String,
+      default: 'none'
     }
   },
 
@@ -90,7 +124,8 @@ export default {
     return {
       lastSelectedHeader: this.sortBy,
       sortProxy: this.sortBy,
-      orderProxy: this.order
+      orderProxy: this.order,
+      selectAll: false
     }
   },
 
@@ -103,7 +138,8 @@ export default {
       const activeClasses = {
         'ao-table': true,
         'ao-table--clickable': this.isClickable,
-        'ao-table--condensed': this.condensed
+        'ao-table--condensed': this.condensed,
+        'ao-table--scrollable': this.isScrollable
       }
       return filterClasses(activeClasses)
     },
@@ -143,6 +179,12 @@ export default {
 
     isSortable (sortable, hidden) {
       return sortable === true && hidden === false
+    },
+
+    getMaxHeight () {
+      return {
+        'max-height': this.maxHeight
+      }
     }
   }
 }
@@ -199,16 +241,6 @@ $table-row-background-shaded: $color-gray-90;
     background-color: $color-gray-90;
   }
 
-  &.ao-table--clickable {
-    tbody > tr {
-      cursor: pointer;
-    }
-
-    & > tbody > tr:hover {
-      background: $color-gray-80;
-    }
-  }
-
   &--vertical-align-top {
     & > tr > td {
       vertical-align: top;
@@ -223,10 +255,8 @@ $table-row-background-shaded: $color-gray-90;
 
   & tr > td {
     padding: .5rem;
-  }
-
-  & > tbody tr > td {
-    border-top: 1px solid $table-border-color;
+    vertical-align: middle;
+    border-bottom: 1px solid $table-border-color;
   }
 
   & > thead > tr > th {
@@ -234,8 +264,12 @@ $table-row-background-shaded: $color-gray-90;
     border-bottom: 2px solid $table-border-color;
   }
 
-  & tfoot tr > td {
-    border-top-width: 2px;
+  & > tfoot > tr > td {
+    border-top: 1px solid $table-border-color;
+  }
+
+  & > tfoot > tr ~ tr > td {
+    border-top: 0;
   }
 
   &__sort-icon {
@@ -267,6 +301,63 @@ $table-row-background-shaded: $color-gray-90;
       cursor: inherit !important;
       background-color: $table-row-background-shaded !important;
     }
+  }
+
+  .ao-table__header--select-all {
+    width: 2rem;
+  }
+}
+
+$fake-scrollbar-color: $color-gray-90;
+
+.ao-table.ao-table--scrollable {
+  display: flex;
+  flex-direction: column;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: $browser-scrollbar-width;
+    background: $fake-scrollbar-color;
+    border-left: 1px solid $color-gray-80;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 2px;
+    background-color: $color-gray-40;
+    -webkit-box-shadow: inset 4px 0 0px $fake-scrollbar-color, inset -5px 0 0px $fake-scrollbar-color;
+    border-left: 1px solid $color-gray-80;
+  }
+
+  tbody {
+    overflow-y: scroll;
+  }
+
+  & > thead > tr,
+  & > tbody > tr,
+  & > tfoot > tr {
+        display: flex;
+  }
+
+  & > thead > tr > th,
+  & > tbody > tr > td,
+  & > tfoot > tr > td {
+    flex: 1 1 0;
+    overflow-x: hidden;
+  }
+
+  & thead th:last-child,
+  & tfoot td:last-child {
+    padding-right: $table-cell-padding + $browser-scrollbar-width;
+  }
+}
+
+.ao-table.ao-table--clickable {
+  tbody > tr {
+    cursor: pointer;
+  }
+
+  & > tbody > tr:hover {
+    background: $color-gray-80;
   }
 }
 </style>
